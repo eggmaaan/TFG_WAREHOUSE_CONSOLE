@@ -32,9 +32,6 @@ public class TransaccionManager {
         sessionFactory.close();
     }
 
-    public IUserDAO getUserDAO(){
-        return new UserDAO(session);
-    }
     public IWarehouseDAO getWarehouseDAO(){
         return new WarehouseDAO(session);
     }
