@@ -39,8 +39,6 @@ public class WarehouseStockDAO implements IWarehouseStockDAO {
 
     @Override
     public WarehouseStock findByWarAndPr(Warehouse warehouse, Product product) {
-        int idWarehouse = warehouse.getId();
-        int idProduct = product.getId();
         Query query = (Query)session.createNativeQuery("Select  ID ,ID_WAREHOUSE, ID_PRODUCT, STOCK from WAREHOUSESTOCK where " +
                                                         "ID_WAREHOUSE = :idWarehouse AND ID_PRODUCT = :idProduct ", WarehouseStock.class);
         query.setParameter("idWarehouse", warehouse.getId());

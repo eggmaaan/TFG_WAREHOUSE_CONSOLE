@@ -107,7 +107,7 @@ public class Launcher {
                     System.out.println("Producto -> "  + pro);
                 }
 
-            }else if(menuOption == 5){
+             }else if(menuOption == 5){
 
                 System.out.println("Insertando los productos en el almacen");
 
@@ -128,8 +128,6 @@ public class Launcher {
 
                     /*
                         Para evitar que el mismo producto este dos veces en el mismo almacen buscamos primero si eso ocure.
-
-
                      */
                     for (Product p : products){
 
