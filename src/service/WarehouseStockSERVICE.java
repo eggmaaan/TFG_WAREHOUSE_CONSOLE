@@ -1,5 +1,6 @@
 package service;
 
+import beans.Product;
 import beans.Warehouse;
 import beans.WarehouseStock;
 import interfaces.IWarehouseDAO;
@@ -63,6 +64,24 @@ public class WarehouseStockSERVICE implements IWarehouseStockSERVICE {
 
         return warehouseStocks;
 
+    }
+
+    @Override
+    public WarehouseStock findByWarAndPr(Warehouse warehouse, Product product) {
+        TransaccionManager tm = null;
+        WarehouseStock warehouseStock = null;
+
+        try{
+            tm = new TransaccionManager();
+            IWarehouseStockDAO dao = tm.getWarehouseStockDAO();
+            warehouseStock = dao.findByWarAndPr(warehouse, product);
+            tm.closeConnectionOK();
+
+
+        }catch(Exception e){
+            tm.closeConnectionFail();
+        }
+        return warehouseStock;
     }
 
     @Override

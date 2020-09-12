@@ -47,7 +47,7 @@ public class Launcher {
             System.out.println("PULSE 1 PARA INTRODUCIR LOS ALMACENES");
             System.out.println("PULSE 2 PARA LISTAR LOS ALMACENES");
             System.out.println("PULSE 3 PARA INTRODUCIR LOS PRODUCTOS");
-            System.out.println("PULSE 4 PARA LISTAR LOS ALMACENES");
+            System.out.println("PULSE 4 PARA LISTAR LOS PRODUCTOS");
             System.out.println("PULSE 5 PARA INTRODUCIR LOS PRODUCTOS EN LOS ALMACENES");
             System.out.println("PULSE 6 PARA INTRODUCIR LAS VENTAS");
             System.out.println("PULSE 0 PARA SALIR");
@@ -120,17 +120,44 @@ public class Launcher {
 
 
                     /*
-                    Esto es para saber el ID del primer almacen, ya que al ser autoincremental,
-                    de normal general, el id ira cambiando, ya que si no seleccionamos alguna opcion del menu que inicialice la lista de los Almacenes(Warehouse)
-                    no sabremos cual es el indice del primer almacen.
+                        Esto es para saber el ID del primer almacen, ya que al ser autoincremental,
+                        de normal general, el id ira cambiando, ya que si no seleccionamos alguna opcion del menu que inicialice la lista de los Almacenes(Warehouse)
+                        no sabremos cual es el indice del primer almacen.
                      */
                     int indexWarehouse = warehouseSERVICE.getFirstId();
 
+                    /*
+                        Para evitar que el mismo producto este dos veces en el mismo almacen buscamos primero si eso ocure.
+
+
+                     */
                     for (Product p : products){
+
+                        warehouse = warehouseSERVICE.findById((int) Math.floor(Math.random()*((indexWarehouse+10) - indexWarehouse) + indexWarehouse));
+
+                        WarehouseStock ex = warehouseStockSERVICE.findByWarAndPr(warehouse, p);
+
+                        if(ex != null){
+
+                            boolean existAgain = true;
+                            while(existAgain){
+                                warehouse = warehouseSERVICE.findById((int) Math.floor(Math.random()*((indexWarehouse+10) - indexWarehouse) + indexWarehouse));
+                                ex = warehouseStockSERVICE.findByWarAndPr(warehouse, p);
+
+                                if(ex == null){
+                                    existAgain = false;
+                                    break;
+                                }
+                            }
+
+
+                        }
+
+                        warehouseStock.setWarehouse(warehouse);
                         warehouseStock.setStock((int) Math.floor(Math.random()*(11-1) + 1));
-                        warehouseStock.setWarehouse(warehouseSERVICE.findById((int) Math.floor(Math.random()*((indexWarehouse+10) - indexWarehouse) + indexWarehouse)));
                         warehouseStock.setProduct(p);
                         warehouseStockSERVICE.addWarehouse(warehouseStock);
+
 
                     }
                     warehouseStock = null;
@@ -162,6 +189,7 @@ public class Launcher {
                         sale.setProduct(product);
                         sale.setWarehouse(warehouse);
                         sale.setSaleDate(setDateSel());
+                        sale.setUnits((int) Math.floor(Math.random()*10)+1);
                         saleService.addSale(sale);
                     }
 

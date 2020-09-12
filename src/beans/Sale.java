@@ -2,7 +2,6 @@ package beans;
 
 import javax.persistence.*;
 import java.util.Calendar;
-import java.util.Date;
 
 @Entity
 @Table(name="SALE")
@@ -13,11 +12,11 @@ public class Sale {
     @Column(name="ID")
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REMOVE, CascadeType.REFRESH})
     @JoinColumn(name = "ID_PRODUCT")
     private Product product;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REMOVE, CascadeType.REFRESH})
     @JoinColumn(name = "ID_WAREHOUSE")
     private Warehouse warehouse;
 
@@ -25,11 +24,14 @@ public class Sale {
     @Temporal(TemporalType.DATE)
     private Calendar saleDate;
 
+    @Column(name="UNITS")
+    private int units;
+
     public Sale() {
 
     }
 
-    public Sale(Product product, Warehouse warehouse,  Calendar saleDate) {
+    public Sale(Product product, Warehouse warehouse, Calendar saleDate) {
         this.warehouse = warehouse;
         this.product = product;
         this.saleDate = saleDate;
@@ -74,6 +76,14 @@ public class Sale {
         this.saleDate = saleDate;
     }
 
+    public int getUnits() {
+        return units;
+    }
+
+    public void setUnits(int units) {
+        this.units = units;
+    }
+
     @Override
     public String toString() {
         return "Sale{" +
@@ -81,6 +91,7 @@ public class Sale {
                 ", product=" + product +
                 ", warehouse=" + warehouse +
                 ", saleDate=" + saleDate +
+                ", units=" + units +
                 '}';
     }
 }

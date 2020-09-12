@@ -13,7 +13,6 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
-        <mapping class="beans.User" />
         <mapping class="beans.Warehouse" />
         <mapping class="beans.Product" />
         <mapping class="beans.WarehouseStock" />

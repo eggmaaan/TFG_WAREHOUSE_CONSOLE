@@ -1,5 +1,6 @@
 package dao;
 
+import beans.Product;
 import beans.Warehouse;
 import beans.WarehouseStock;
 import interfaces.IWarehouseStockDAO;
@@ -35,6 +36,20 @@ public class WarehouseStockDAO implements IWarehouseStockDAO {
         List<WarehouseStock>  warehouseStocks = query.getResultList();
         return warehouseStocks;
     }
+
+    @Override
+    public WarehouseStock findByWarAndPr(Warehouse warehouse, Product product) {
+        int idWarehouse = warehouse.getId();
+        int idProduct = product.getId();
+        Query query = (Query)session.createNativeQuery("Select  ID ,ID_WAREHOUSE, ID_PRODUCT, STOCK from WAREHOUSESTOCK where " +
+                                                        "ID_WAREHOUSE = :idWarehouse AND ID_PRODUCT = :idProduct ", WarehouseStock.class);
+        query.setParameter("idWarehouse", warehouse.getId());
+        query.setParameter("idProduct", product.getId());
+        WarehouseStock warehouseStock = (WarehouseStock) query.getSingleResult();
+
+        return warehouseStock;
+    }
+
 
     @Override
     public int getFirstId() {
